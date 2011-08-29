@@ -416,7 +416,9 @@ http Request {..} bodyStep m = do
                         Just len -> joinI $ takeLBS len $$ x
                         Nothing -> x
         let decompress x =
-                if not rawBody && ("content-encoding", "gzip") `elem` hs'
+                if not rawBody
+						&& ("content-encoding", "gzip") `elem` hs'
+						&& not (("content-type", "application/x-tar") `elem` hs')
                     then joinI $ Z.ungzip x
                     else returnI x
         -- RFC 2616 section 4.4_1 defines responses that must not include a body
