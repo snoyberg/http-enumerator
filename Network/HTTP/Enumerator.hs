@@ -465,7 +465,7 @@ http Request {..} bodyStep m = do
                     then joinI $ chunkedEnumeratee $$ x
                     else case mcl >>= readMay . S8.unpack of
                         Just len -> joinI $ takeLBS len $$ x
-                        Nothing -> x
+                        Nothing -> joinI $ (\k -> return k) $$ x
         let decompresser x =
                 if not rawBody
                         && ("content-encoding", "gzip") `elem` hs'
