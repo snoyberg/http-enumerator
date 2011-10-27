@@ -63,7 +63,7 @@ module Network.HTTP.Enumerator
     , RequestBody (..)
     , Response (..)
       -- ** Request
-    , Request
+    , Request(Request)
     , def
     , method
     , secure
