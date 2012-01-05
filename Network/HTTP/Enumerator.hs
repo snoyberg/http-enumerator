@@ -678,9 +678,11 @@ parseUrl2 full sec parsePath s = do
         , port = port'
         , secure = sec
         , path = S8.pack
-                    $ if null path''
+                    $ (if null path'
                             then "/"
-                            else concatMap (encodeUrlCharPI parsePath) path''
+                            else concatMap (encodeUrlCharPI parsePath) path')
+                        ++
+                      (if parsePath then "" else qstring')
         , queryString = if parsePath
                             then W.parseQuery $ S8.pack qstring
                             else []
@@ -689,7 +691,6 @@ parseUrl2 full sec parsePath s = do
     (beforeSlash, afterSlash) = break (== '/') s
     (hostname, portStr) = break (== ':') beforeSlash
     (path', qstring') = break (== '?') afterSlash
-    path'' = if parsePath then path' else afterSlash
     qstring'' = case qstring' of
                 '?':x -> x
                 _ -> qstring'
