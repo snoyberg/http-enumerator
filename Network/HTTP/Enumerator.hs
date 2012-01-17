@@ -651,7 +651,7 @@ defaultCheckCerts :: W.Ascii -> [X509] -> IO TLS.TLSCertificateUsage
 defaultCheckCerts host' certs =
     case certificateVerifyDomain (S8.unpack host') certs of
         TLS.CertificateUsageAccept -> certificateVerifyChain certs
-        _                          -> return TLS.CertificateUsageAccept
+        rejected                   -> return rejected
 
 instance Default (Request m) where
     def = Request
