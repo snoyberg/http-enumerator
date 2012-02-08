@@ -80,7 +80,7 @@ sslClientConn onCerts h = do
             }
     gen <- makeSystem
     istate <- client tcp gen h
-    _ <- handshake istate
+    handshake istate
     return ConnInfo
         { connRead = recvD istate
         , connWrite = sendData istate . L.fromChunks
@@ -89,6 +89,6 @@ sslClientConn onCerts h = do
   where
     recvD istate = do
         x <- recvData istate
-        if L.null x
+        if S.null x
             then recvD istate
-            else return $ L.toChunks x
+            else return [x]
