@@ -57,7 +57,7 @@ connEnum ConnInfo { connRead = read' } =
     go (Continue k) = do
         bs <- tryIO read'
         if all S.null bs
-            then throwError ConnectionReset
+            then continue k
             else do
                 step <- lift $ runIteratee $ k $ Chunks bs
                 go step
