@@ -1,5 +1,0 @@
-Note: future development (besides bug fixes) has been moved to the http-conduit
-package, which provides much more flexibility in its API. I recommend all users
-migrate.
-
-https://github.com/snoyberg/http-conduit
